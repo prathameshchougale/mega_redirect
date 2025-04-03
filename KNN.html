@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+</head>
+<body>
+	<pre>
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier 	#for Knn classifier
+from sklearn.neighbors import KNeighborsRegressor 	#for Knn regressor
+from sklearn.preprocessing import StandardScaler 	#for standardization
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+import seaborn as sns
+
+cancer_data = load_breast_cancer()
+cancer_data.keys()
+
+df = pd.DataFrame(cancer_data['data'],columns=cancer_data['feature_names'])
+df.head()
+
+# splitting the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(cancer_data['data'], cancer_data['target'], random_state=42,test_size=0.3)
+
+# standardization on data 
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# training KNeighborsClassifier Model using k=5,k=3 and k=7
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train,y_train)
+
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy of the KNN classifier with k=5: {accuracy}")
+
+print("For k = 5")
+print("Classification Report : ")
+print(classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+print ("Confusion Matrix : \n", cm)
+
+print("For k = 3")
+print("Classification Report : ")
+print(classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+print ("Confusion Matrix : \n", cm)
+
+print("For k = 7")
+print("Classification Report : ")
+print(classification_report(y_test, y_pred))
+cm = confusion_matrix(y_test, y_pred)
+print ("Confusion Matrix : \n", cm)
+
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</pre>
+
+</body>
+</html>
